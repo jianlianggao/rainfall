@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "hooks": {
+    "Stop": [
+      {
+        "type": "command",
+        "command": "bash .github/hooks/run-checks.sh",
+        "timeoutSec": 120
+      }
+    ]
+  }
+}
