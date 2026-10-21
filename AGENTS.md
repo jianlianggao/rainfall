@@ -66,6 +66,31 @@ These are reference expectations, not a claim that every statistic is already
 implemented correctly. Do not hard-code the reference results in application
 code, and do not alter raw data to make a check pass.
 
+### Existing-script check against the raw input
+
+The existing statistics functions and CLI were run against
+`data/raw/rainfall_march_2026.csv`. Observed results:
+
+- **Record count and dates:** correct, 31 records from `2026-03-01` through
+  `2026-03-31`.
+- **Total:** incorrect, 89.7 mm instead of 92.6 mm. `total_rain` excludes its
+  `end_date`, so the final day's 2.9 mm is omitted.
+- **Mean:** `mean` returns the expected 2.9870967742 mm/day, but the CLI rounds
+  it to `3.0 mm/day`.
+- **Seven-day moving average:** only 24 values are returned instead of 25; the
+  final window (`2026-03-25` through `2026-03-31`) is omitted. The last
+  returned value is 1.6714285714 mm, not the expected final-window mean of
+  1.2142857143 mm.
+- **Driest day:** no `driest_day` statistics function exists.
+- **Wettest day:** the function returns the expected date,
+  `2026-03-23`; the CLI does not print its rainfall amount.
+- **CLI coverage:** the summary prints record count, total, rounded mean and
+  wettest date only; it does not report a moving average or driest day.
+
+When checking these scripts against the raw input, report these discrepancies
+instead of treating the existing output as correct. Existing tests use small
+fixtures and do not by themselves verify these full-March reference values.
+
 ## Required Checks And Completion Hook
 
 Run all checks from `CONTRIBUTING.md` before completing work:
