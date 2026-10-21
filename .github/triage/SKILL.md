@@ -1,6 +1,6 @@
 ---
 description: "Triage one reported issue against the codebase and report confirmed bugs to GitHub without changing source files"
-name: "Triage"
+name: "triage"
 argument-hint: "Paste one issue description or GitHub issue URL"
 agent: "agent"
 ---
